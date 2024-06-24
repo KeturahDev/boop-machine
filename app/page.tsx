@@ -7,6 +7,9 @@ export default function Home() {
       <Link href={"/the-people"}>
         <div className="btn primary">👤</div>
       </Link>
+      <Link href={"/hangman"}>
+        <div className="btn primary">☠️</div>
+      </Link>
     </div>
   );
 }
