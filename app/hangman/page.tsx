@@ -9,7 +9,7 @@ const WordSpaces = ({
   correctGuesses: string[];
 }) => {
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-2 items-center">
       {word.split("").map((letter, i) => (
         <div key={i}>{correctGuesses.includes(letter) ? letter : "____"}</div>
       ))}
@@ -74,6 +74,11 @@ const HangmanPage = () => {
             word={word}
             correctGuesses={guesses.filter((l) => word.split("").includes(l))}
           />
+          {word.split("").every((l) => guesses.includes(l)) && (
+            <div className="btn" onClick={() => location.reload()}>
+              New Word
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -81,3 +86,7 @@ const HangmanPage = () => {
 };
 
 export default HangmanPage;
+
+// Use hangman ascii art:
+//choose a fixed width font for ascii art
+//use break for maintaining the different lines <br />
