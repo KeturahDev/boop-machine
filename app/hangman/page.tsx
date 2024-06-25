@@ -54,11 +54,11 @@ const HangmanPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col gap-7 items-center">
       {loading ? (
-        <div>loading...</div>
+        <>loading...</>
       ) : (
-        <div className="flex flex-col gap-7 items-center">
+        <>
           <progress
             className="progress progress-warning w-56"
             value={
@@ -79,7 +79,7 @@ const HangmanPage = () => {
               New Word
             </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );
