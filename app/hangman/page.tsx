@@ -41,6 +41,46 @@ const Alphebet = ({
   );
 };
 
+const WordDefinition = ({ word }: { word: string }) => {
+  const [definition, setDefinition] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    console.log("loading:", loading);
+    console.log("def:", definition);
+  });
+
+  const apiUrl = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process
+    .env.DICTIONARY_API_KEY!}`;
+
+  const getDefinition = () => {
+    fetch(apiUrl)
+      .then((res) => res.json())
+      .then(
+        (data) => setDefinition(data[0].meanings[0].definitions[0].definition) //adjust data destructure
+      )
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  //adjust render logic to get filled with missing definition message
+  return (
+    <>
+      {!definition ? (
+        <div onClick={() => getDefinition} className="btn">
+          Get Definition
+        </div>
+      ) : loading ? (
+        <div>loading...</div>
+      ) : (
+        <div>{definition}</div>
+      )}
+    </>
+  );
+};
+
 const HangmanPage = () => {
   const [word, setWord] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
@@ -75,9 +115,12 @@ const HangmanPage = () => {
             correctGuesses={guesses.filter((l) => word.split("").includes(l))}
           />
           {word.split("").every((l) => guesses.includes(l)) && (
-            <div className="btn" onClick={() => location.reload()}>
-              New Word
-            </div>
+            <>
+              <div className="btn" onClick={() => location.reload()}>
+                New Word
+              </div>
+              <WordDefinition word={word} />
+            </>
           )}
         </>
       )}
